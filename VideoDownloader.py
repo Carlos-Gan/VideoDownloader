@@ -4,7 +4,6 @@ import yt_dlp
 import os
 import pyktok as pyk
 
-
 class VideoDownloader:
     def __init__(self, root):
         self.root = root
@@ -27,6 +26,7 @@ class VideoDownloader:
 
         self.create_youtube_tab()
         self.create_tiktok_tab()
+        self.create_twitter_tab()
         self.create_settings_tab()
         self.create_info_tab()
 
@@ -141,6 +141,22 @@ class VideoDownloader:
                             bg='#e74c3c', hover_bg='#c0392b',
                             width=200).pack(pady=20)
 
+    def create_twitter_tab(self):
+        tab=ttk.Frame(self.notebook)
+        self.notebook.add(tab, text='Twitter')
+
+        content_frame = ttk.Frame(tab)
+        content_frame.pack(pady=20, padx=20, fill='both', expand=True)
+
+        ttk.Label(content_frame, text="URL del video o imagen:").pack(pady=10)
+        self.tt_url = ttk.Entry(content_frame, width=50)
+        self.tt_url.pack(pady=5)
+
+        self.rounded_button(content_frame, "Descargar de Twitter",
+                            self.download_twitter,
+                            bg='#e74c3c', hover_bg='#c0392b',
+                            width=200).pack(pady=20)
+
     def create_settings_tab(self):
         tab = ttk.Frame(self.notebook)
         self.notebook.add(tab, text='Configuración')
@@ -167,7 +183,7 @@ class VideoDownloader:
         self.notebook.add(tab, text='Información')
 
         info_text = (
-            "Downloader Video Pro v2.3\n\n"
+            "Downloader Video Pro v3.1\n\n"
             "Desarrollado por Carlos Gandara\n\n"
             "Características principales:\n"
             "✔ Descarga videos de YouTube en HD\n"
@@ -175,7 +191,8 @@ class VideoDownloader:
             "✔ Descarga videos de TikTok\n"
             "✔ Interfaz moderna y fácil de usar\n"
             "✔ Configuración personalizable\n"
-            "✔ Mas formatos de audio y calidad"
+            "✔ Mas formatos de audio y calidad\n"
+            "✔ Descarga de videos de Twitter (X)"
         )
 
         ttk.Label(tab, text=info_text, justify='left',
@@ -251,6 +268,26 @@ class VideoDownloader:
             self.audio_options_frame.pack(anchor='w', pady=10, before=self.url_label)
         else:
             self.audio_options_frame.pack_forget()
+
+    def download_twitter(self):
+        url= self.tt_url.get()
+        if not url:
+            messagebox.showerror("Error", 'Porfavor ingrese una URL valida de Twitter(X)')
+            return
+        try:
+            ydl_opts = {
+                'quiet': True,
+                'no_warnings': True,
+                'outtmpl': 'downloads/%(title)s.%(ext)s',
+                'progress_hooks': [self.progress_hook],
+            }
+
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([url])
+
+            messagebox.showinfo("Éxito", "Descarga completada correctamente")
+        except Exception as e:
+            messagebox.showerror("Error", f"Error en Twitter: {str(e)}")
 
 if __name__ == "__main__":
     root = tk.Tk()
