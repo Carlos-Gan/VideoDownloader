@@ -284,7 +284,7 @@ def download_twitter():
 
 
 # Twitter/X
-twitter_frame = customtkinter.CTkFrame(master=tabview.tab('Twitter/X Downloader'), fg_color="transparent")
+twitter_frame = customtkinter.CTkFrame(master=tabview.tab('X Downloader'), fg_color="transparent")
 twitter_frame.pack(expand=True, fill="both", padx=20, pady=20)
 label_Twitter = CTkLabel(master=twitter_frame, text="Twitter Video Downloader", font=("Arial", 16, "bold"))
 label_Twitter.pack(padx=5, pady=15, anchor="center")
@@ -318,7 +318,7 @@ label_Info = CTkLabel(master=info_frame, text="Información", font=("Arial", 16,
 label_Info.pack(padx=5, pady=15, anchor="center")
 
 info_text = """
-Multi-Downloader v3.5
+Multi-Downloader v3.6
 Desarrollado para descargar contenido multimedia de distintas plataformas.
 Desarrolado por Carlos Gan
 
